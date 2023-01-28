@@ -11,6 +11,6 @@ class GitHub {
 
     const profile = await profileResponse.json();
 
-    return {profile: profile}
+    return {profile}
   }
 }
