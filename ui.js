@@ -4,7 +4,6 @@ class UI {
   }
 
   showProfile(user) {
-
     let loginName = user.login;
     this.profile.innerHTML = `
     <div class="card card-body mb-3">
@@ -16,18 +15,12 @@ class UI {
         }" target="_blank" class="btn btn-primary btn-block mb-4">View Profile</a>
       </div>
       <div class="col-md-9">
-        <span class="badge bg-primary">Public Repos: ${
-          user.public_repos
-        }</span>
+        <span class="badge bg-primary">Public Repos: ${user.public_repos}</span>
         <span class="badge bg-secondary">Public Gists: ${
           user.public_gists
         }</span>
-        <span class="badge bg-success">Followers: ${
-          user.followers
-        }</span>
-        <span class="badge bg-info">Following: ${
-          user.following
-        }</span>
+        <span class="badge bg-success">Followers: ${user.followers}</span>
+        <span class="badge bg-info">Following: ${user.following}</span>
         <br><br>
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between align-items-center">Name: ${
@@ -38,7 +31,9 @@ class UI {
           <li class="list-group-item">Website/Blog: ${
             user.blog === "" ? "No website currently" : user.blog
           }</li>
-          <li class="list-group-item">Location: ${user.location === null ? "No location " : user.location}</li>
+          <li class="list-group-item">Location: ${
+            user.location === null ? "No location " : user.location
+          }</li>
           <li class="list-group-item">Twitter: ${
             user.twitter_username == null
               ? "No Twitter account currently"
@@ -53,16 +48,54 @@ class UI {
  
  `;
   }
+  showRepos(repos) {
+    let output = "";
+    console.log(repos);
+    repos.forEach((repo) => {
+      output += `
+      <div class="card card-body mb-2">
+        <div class="row">
+          <div class="col-md-6">
+            <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+          </div>
+          <div class="col-md-6">
+          <span class="badge bg-primary">Stars: ${repo.stargazers_count}</span>
+          <span class="badge bg-secondary">Issues: ${repo.open_issues}</span>
+          <span class="badge bg-success">Forks: ${repo.forms_count}</span>
+          </div>
+        </div>
+      </div>
+    `;
+    });
+    document.getElementById("repos").innerHTML = output;
+  }
 
-  showAlert(message,className){
-    const div = document.createElement('div');
+  showAlert(message, className) {
+    //clear remaining alerts
+    this.clearAlert();
+
+    const div = document.createElement("div");
     div.className = className;
     div.appendChild(document.createTextNode(message));
     const container = document.querySelector(".searchContainer");
-    const search  = document.querySelector(".search");
-    container.insertBefore(div,search);
+    const search = document.querySelector(".search");
+    container.insertBefore(div, search);
+
+    //timeout alert
+
+    setTimeout(() => {
+      this.clearAlert();
+    }, 3000);
   }
-  clearProfile(){
-    this.profile.innerHTML = '';
+
+  clearAlert() {
+    const currentAlert = document.querySelector(".alert");
+
+    if (currentAlert) {
+      currentAlert.remove();
+    }
+  }
+  clearProfile() {
+    this.profile.innerHTML = "";
   }
 }
